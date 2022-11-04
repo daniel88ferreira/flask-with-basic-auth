@@ -9,15 +9,14 @@ db = SQLAlchemy(app)
 
 class Token(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
     token = db.Column(db.String, nullable=False)
-    perm = db.Column(db.String, default='r', nullable=False)
+    channels = db.Column(db.String, default='', nullable=False)
 
     def __repr__(self):
-        return "<Token for user {}>".format(self.username)
+        return "<Token {}>".format(self.id)
 
 
-@app.route('/')
+@app.route('/', )
 def index():
     return 'Hello World!'
 
