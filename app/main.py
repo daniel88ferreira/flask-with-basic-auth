@@ -2,26 +2,25 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
-class Token(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    token = db.Column(db.String, nullable=False)
-    channels = db.Column(db.String, default='', nullable=False)
-
-    def __repr__(self):
-        return "<Token {}>".format(self.id)
-
-
-@app.route('/', )
-def index():
-    return 'Hello World!'
+def create_app(test_config=None):
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+        SQLALCHEMY_DATABASE_URI="sqlite:///project.db",
+    )
+    if test_config is None:
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        app.config.from_mapping(test_config)
+    db.init_app(app)
+    with app.app_context():
+        from . import routes  # noqa
+        db.create_all()
+    return app
 
 
 def main():
-    with app.app_context():
-        db.create_all()
+    app = create_app()
     app.run()

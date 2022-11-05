@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 
-from app.main import Token, db, app
+from app.models import Token, db
 
 
 class TestModels(TestCase):
@@ -9,10 +9,12 @@ class TestModels(TestCase):
     TESTING = True
 
     def create_app(self):
+        from app.main import create_app
+        app = create_app()
         app.config["SQLALCHEMY_DATABASE_URI"] = self.SQLALCHEMY_DATABASE_URI
         return app
 
-    def test_something(self):
+    def test_token(self):
         token1 = Token(
             token="123",
             channels="bios"
