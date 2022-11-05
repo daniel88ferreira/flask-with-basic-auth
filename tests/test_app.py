@@ -15,4 +15,4 @@ class Test(TestCase):
         """
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.text, "Hello, World!")
+        self.assertIn("<title>Hello!</title>", response.text)

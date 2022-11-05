@@ -1,11 +1,11 @@
-from flask import current_app as app
+from flask import current_app as app, render_template
 
 from .models import db, Token
 
 
 @app.route('/')
 def hello():
-    return 'Hello, World!'
+    return render_template('index.html')
 
 
 @app.route('/insert')
