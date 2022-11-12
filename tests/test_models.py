@@ -1,28 +1,30 @@
+import os.path
+
 from flask_testing import TestCase
 
 from app.models import Token, db
 
+here = os.path.realpath(os.path.basename(__name__))
+
 
 class TestModels(TestCase):
 
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-    TESTING = True
-
     def create_app(self):
         from app.main import create_app
-        app = create_app()
-        app.config["SQLALCHEMY_DATABASE_URI"] = self.SQLALCHEMY_DATABASE_URI
+        app = create_app(
+            {"SQLALCHEMY_DATABASE_URI": "sqlite://", "TESTING": True}
+        )
         return app
 
     def test_token(self):
-        token1 = Token(
+        token = Token(
             token="123",
             channels="bios"
         )
-        db.session.add(token1)
+        db.session.add(token)
         db.session.commit()
 
-        assert token1 in db.session
+        assert token in db.session
 
     def setUp(self):
         db.drop_all()
