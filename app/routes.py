@@ -10,5 +10,4 @@ def hello():
 
 @app.route('/create')
 def create():
-    token_id = create_token()
-    return 'Created token: {}'.format(token_id)
+    return str(create_token())

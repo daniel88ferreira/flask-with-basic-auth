@@ -1,11 +1,14 @@
+import secrets
+
 from .models import db, Token
 
 
 def create_token():
-    token1 = Token(
-        token="123",
+    generated_token = secrets.token_hex(16)
+    token = Token(
+        token=generated_token,
         channels="bios"
     )
-    db.session.add(token1)
+    db.session.add(token)
     db.session.commit()
-    return str(token1.id)
+    return generated_token

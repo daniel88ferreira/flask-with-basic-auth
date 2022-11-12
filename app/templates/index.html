@@ -5,6 +5,21 @@
     <title>Hello!</title>
 </head>
 <body>
+
 <h1>Hello, World!</h1>
+<button id="generate" onclick="generateAndShowToken()">Generate Token</button>
+<p id="token"></p>
+
+<script>
+    function generateAndShowToken() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("token").innerHTML = this.responseText;
+        }
+        xhttp.open("GET", "create");
+        xhttp.send();
+    }
+</script>
+
 </body>
 </html>
